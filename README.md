@@ -1,1 +1,37 @@
-# Findy_auto_analyze_bank
+銀行の顧客ターゲティング  
+(SIGNATE提供：[https://user.competition.signate.jp/ja/](https://user.competition.signate.jp/ja/competition/detail/?competition=092375ab3c4a43c18c8277e1fd264aa9))  
+※py拡張子のファイルは自動分析にかけるためUPLOADしています。
+  
+　顧客の属性情報などから定期預金キャンペーンの反応率を予測  
+1.結果  
+　AUCスコア: 0.790  
+　モデル：LightGBM
+  
+2.特徴  
+　(1)体系的な特徴量エンジニアリング  
+　(2)全18カラムの処理方針を分析的に設計  
+　　 カテゴリ処理方法理由  
+　　　・層別グループ化:age,balance,day,duration  
+　　　・数値化（ラベル）:job,education,contact,poutcome  
+　　　・数値化（0，1):marital,default,housing,loan  
+　　　・数値化（その他):month(月数置換),pdays(グループ別ラベル `[-1, 0, 1~200, 201-400, 401~]`)  
+      
+  　(3)Duration（通話時間）削除  
+  　　初期モデルにおいてdurationが寄与度0.40で最高値だったが、因果が逆であるため削除。  
+  　　（補足：成約した場合は内容について詳しく説明を行い、通話時間が長くなる。  
+  　　つまり duration は「成約の結果」で「原因ではない」ため、通話時間を伸ばしても成約率は上がらない。）  
+　　よって、削除により実装可能で効果的なモデルに変更  
+  
+3.技術  
+  python, pandas,seaborn,matplotlib, scikit-learn,LightGBM
+  
+4.ファイル  
+　・データセット: SIGNATE参照  
+　・bank_marketing.ipynb: 分析ノートブック  
+　・submission.csv: 提出結果  
+   
+5.学び  
+・複数モデルの比較検証  
+・因果推論の重要性（Duration削除）  
+
+**実装期間**: 1日
